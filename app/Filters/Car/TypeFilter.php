@@ -6,14 +6,14 @@ namespace App\Filters\Car;
 use App\Filters\FilterAbstract;
 use Illuminate\Database\Eloquent\Builder;
 
-class FuelFilter extends FilterAbstract
+class TypeFilter extends FilterAbstract
 {
     public function mappings()
     {
         return [
-            'gasoline' => 'gasoline',
-            'diesel' => 'diesel',
-            'gas' => 'gas',
+            'cargo' => 'cargo',
+            'van' => 'van',
+            'passanger' => 'passanger',
         ];
     }
     public function filter(Builder $builder, $value)
@@ -25,7 +25,7 @@ class FuelFilter extends FilterAbstract
             return $builder;
         }
 
-        return $builder->where('fuel', $value);
+        return $builder->where('type', $value);
     }
 
 }

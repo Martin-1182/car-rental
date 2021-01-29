@@ -10,15 +10,9 @@ class CarController extends Controller
 {
     public function index(Request $request)
     {
-        return Car::filter($request, $this->getFilters())->get();
+        $cars =  Car::filter($request)->get();
+
+        return view('cars.index', compact('cars'));
     }
 
-    protected function getFilters()
-    {
-        return [
-            
-            //
- 
-        ];
-    }
 }

@@ -12,6 +12,16 @@ class Car extends Model
 {
     use HasFactory;
 
+    public function getFormatedBrandAttribute()
+    {
+        return strtoupper($this->brand);
+    }
+
+    public function getFormattedAccessAttribute()
+    {
+        return $this->occupied === 0 ? 'Free' : 'Occupied';
+    }
+
     public function scopeFilter(Builder $builder, $request, array $filters = [])
     {
         return (new CarFilters($request))->add($filters)->filter($builder);

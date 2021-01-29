@@ -12,8 +12,8 @@ class AccessFilter  extends FilterAbstract
     public function mappings()
     {
         return [
-            'unavailable' => false,
-            'free' => true,
+            'unavailable' => true,
+            'free' => false,
         ];
     }
     public function filter(Builder $builder, $value)

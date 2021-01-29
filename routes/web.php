@@ -22,4 +22,4 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
-Route::get('/cars', [CarController::class, 'index']);
+Route::get('/cars', [CarController::class, 'index'])->name('cars.index');
