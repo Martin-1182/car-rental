@@ -12,14 +12,29 @@ class Car extends Model
 {
     use HasFactory;
 
-    public function getFormatedBrandAttribute()
+    public function getRouteKeyName()
     {
-        return strtoupper($this->brand);
+        return 'slug';
+    }
+
+    public function getFormattedBrandAttribute()
+    {
+        return ucfirst($this->brand);
+    }
+
+    public function getFormattedTypeAttribute()
+    {
+        return strtoupper($this->type);
+    }
+
+    public function getFormattedFuelAttribute()
+    {
+        return strtoupper($this->fuel);
     }
 
     public function getFormattedAccessAttribute()
     {
-        return $this->occupied === 0 ? 'Free' : 'Occupied';
+        return strtoupper($this->occupied === 0 ? 'Free' : 'Occupied');
     }
 
     public function scopeFilter(Builder $builder, $request, array $filters = [])

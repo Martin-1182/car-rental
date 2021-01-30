@@ -16,8 +16,29 @@ class CarFilters extends FiltersAbstract
     protected $filters = [
 
         'access' => AccessFilter::class,
-        'fuel' => FuelFilter::class, 
-        'type' => TypeFilter::class,    
+        'fuel' => FuelFilter::class,
+        'type' => TypeFilter::class,
 
     ];
+
+
+    public static function mappings()
+    {
+        return [
+            'access' => [
+                'free' => 'Free',
+                'unavailable' => 'Notavailable',
+            ],
+            'fuel' => [
+                'gassoline' => 'Gassoline',
+                'diesel' => 'Diesel',
+                'gas' => 'Gas',
+            ],
+            'type' => [
+                'passanger' => 'Passanger',
+                'van' => 'Van',
+                'cargo' => 'Cargo',
+            ],
+        ];
+    }
 }
