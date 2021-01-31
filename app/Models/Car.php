@@ -13,6 +13,13 @@ class Car extends Model
     use HasFactory;
 
 
+    protected $fillable = [
+        'brand',
+        'kilometers',
+        'occupied',
+    ];
+
+
     public function getFormattedBrandAttribute()
     {
         return ucfirst($this->brand);

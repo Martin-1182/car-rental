@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CarController;
+use App\Http\Controllers\Admin\AdminCarController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -22,9 +24,16 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/cars-admin', function () {
-    return view('cars');
-})->name('cars-admin');
+
+Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
+
+        Route::resource('admin-cars', AdminCarController::class);
+
+});
+
+
+
+
 
 Route::get('/contact')->name('send-book');
 
