@@ -5,7 +5,7 @@
     </p>
 </div>
 
-@foreach(App\Filters\Car\CarFilters::mappings() as $key => $map)
+@foreach($mappings as $key => $map)
 
     @include('cars.partials._filter_list', compact('key', 'map'))
 

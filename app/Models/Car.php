@@ -37,4 +37,5 @@ class Car extends Model
     {
         return (new CarFilters($request))->add($filters)->filter($builder);
     }
+
 }

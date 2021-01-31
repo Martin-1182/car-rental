@@ -6,7 +6,7 @@
                     <div class="flex flex-wrap -mx-1 overflow-hidden">
 
                         <div class="my-1 px-1 w-full overflow-hidden xl:w-1/2">
-                            <img class="rounded shadow" src="https://via.placeholder.com/600x200.png?text=text"
+                            <img class="rounded shadow" src="https://via.placeholder.com/600x200.png?text=Invelity"
                                 alt="{{ $car->brand }}">
                             <h1 class="text-2xl">{{ $car->brand }}</h1>
                             <div class="mz-4">
@@ -23,8 +23,8 @@
 
                         <div class="my-1 px-1 w-full overflow-hidden xl:w-1/2">
 
-                           <livewire:book-form />
-                           
+                            <livewire:book-form />
+
                         </div>
 
                     </div>
