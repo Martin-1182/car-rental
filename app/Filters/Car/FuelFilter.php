@@ -21,7 +21,7 @@ class FuelFilter extends FilterAbstract
         $value = $this->resolveFilterValue($value);
 
         if ($value === null) {
-            
+
             return $builder;
         }
 

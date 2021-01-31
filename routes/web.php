@@ -22,7 +22,13 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
+Route::middleware(['auth:sanctum', 'verified'])->get('/cars-admin', function () {
+    return view('cars');
+})->name('cars-admin');
+
 Route::get('/cars', [CarController::class, 'index'])->name('cars.index');
+
+Route::get('/cars/{car}', [CarController::class, 'show'])->name('cars.show');
 
 
 

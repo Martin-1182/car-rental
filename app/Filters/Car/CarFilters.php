@@ -30,7 +30,7 @@ class CarFilters extends FiltersAbstract
                 'unavailable' => 'Notavailable',
             ],
             'fuel' => [
-                'gassoline' => 'Gassoline',
+                'gasoline' => 'Gasoline',
                 'diesel' => 'Diesel',
                 'gas' => 'Gas',
             ],

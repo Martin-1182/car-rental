@@ -3,8 +3,9 @@
 
     @foreach ($map as $value => $name)
 
-        <x-jet-nav-link class="inline-block w-full p-3"
-        href="{{ route('cars.index', array_merge(request()->query(), [$key => $value, 'page' => 1])) }}">
+        <x-jet-nav-link class="inline-block w-auto mt-2"
+        href="{{ route('cars.index', array_merge(request()->query(), [$key => $value, 'page' => 1])) }}"
+        :active="request($key) === $value">
             {{ $name }}
         </x-jet-nav-link>
 
@@ -13,10 +14,10 @@
 
     @if (request($key))
 
-    <x-jet-nav-link class="inline-block w-full p-3"
+    <a class="inline-block w-auto pt-2 mt-1"
     href="{{ route('cars.index', Arr::except(request()->query(), [$key, 'page' ])) }}">
-        <span class="text-red-500">&times; Clear this filter</span>
-    </x-jet-nav-link>
+        <span class="text-red-500 text-xs p-2 bg-grey-100 rounded shadow">&times; Clear this filter</span>
+    </a>
 
     @endif
 

@@ -12,10 +12,6 @@ class Car extends Model
 {
     use HasFactory;
 
-    public function getRouteKeyName()
-    {
-        return 'slug';
-    }
 
     public function getFormattedBrandAttribute()
     {
