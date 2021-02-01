@@ -16,7 +16,9 @@
                                 @if ($cars->count())
 
                                   @each('cars.partials._content', $cars, 'car')
-                                  {{ $cars->appends(request()->query())->links() }}
+                                  <div class="p-2">
+                                      {{ $cars->appends(request()->query())->links() }}
+                                  </div>
 
                                 @else
 

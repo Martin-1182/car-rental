@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
 use App\Models\Car;
-use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateCarRequest;
 
 class AdminCarController extends Controller
 {
@@ -16,6 +16,7 @@ class AdminCarController extends Controller
      */
     public function index(Request $request)
     {
+
         $cars =  Car::filter($request)->paginate(10);
 
         return view('admin.index', compact('cars'));
@@ -28,7 +29,7 @@ class AdminCarController extends Controller
      */
     public function create()
     {
-        //
+        dd('Soon :)');
     }
 
     /**
@@ -61,7 +62,7 @@ class AdminCarController extends Controller
      */
     public function edit(Car $car)
     {
-        return view('admin.edit');
+        return view('admin.edit', compact('car'));
     }
 
     /**
@@ -71,9 +72,11 @@ class AdminCarController extends Controller
      * @param  \App\Models\Car  $car
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Car $car)
+    public function update(UpdateCarRequest $request, Car $car)
     {
-        //
+        $car->update($request->validated());
+
+        return redirect()->route('admin-cars.index');
     }
 
     /**
@@ -84,6 +87,10 @@ class AdminCarController extends Controller
      */
     public function destroy(Car $car)
     {
-        //
+
+        $car->delete();
+
+        return redirect()->route('admin-cars.index');
+
     }
 }

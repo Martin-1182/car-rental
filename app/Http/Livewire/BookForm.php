@@ -50,7 +50,7 @@ class BookForm extends Component
         $data['phone'] = $this->phone;
 
 
-        sleep(1);
+        /* sleep(1); */
 
 
         Mail::to('m.halaj@websystem.sk')->send(new SendMail($data));

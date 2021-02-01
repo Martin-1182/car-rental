@@ -26,6 +26,10 @@
                                             class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Brand
                                         </th>
+                                        <th scope="col"
+                                            class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Occupied
+                                        </th>
                                         <th scope="col" width="200" class="px-6 py-3 bg-gray-50">
 
                                         </th>
@@ -40,6 +44,10 @@
 
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                                 {{ $car->brand }}
+                                            </td>
+
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                {{ $car->formattedAccess}}
                                             </td>
 
                                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
@@ -61,6 +69,9 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                        </div>
+                        <div class="p-2">
+                            {{ $cars->links() }}
                         </div>
                     </div>
                 </div>

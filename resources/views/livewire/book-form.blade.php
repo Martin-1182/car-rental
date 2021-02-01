@@ -26,26 +26,27 @@
         </div>
     @endif
 
-    <form wire:submit.prevent="submitForm" action="/contact" method="POST">
+    <form wire:submit.prevent="submitForm" action="/contact">
         @csrf
+        @method('POST')
         <div>
             <x-jet-label for="name" value="{{ __('Name') }}" />
             <x-jet-input wire:model="name" id="name" class="block mt-1 w-full" type="text" name="name"
-                :value="old('name')" required autofocus autocomplete="name" />
+                :value="old('name')" />
             <x-jet-input-error for="name" class="mt-2" />
         </div>
 
         <div class="mt-4">
             <x-jet-label for="email" value="{{ __('Email') }}" />
             <x-jet-input wire:model="email" id="email" class="block mt-1 w-full" type="email" name="email"
-                :value="old('email')" required />
+                :value="old('email')" />
             <x-jet-input-error for="email" class="mt-2" />
         </div>
 
         <div class="mt-4">
             <x-jet-label for="phone" value="{{ __('Phone') }}" />
             <x-jet-input wire:model="phone" id="phone" class="block mt-1 w-full" type="tel" name="phone"
-                :value="old('phone')" required />
+                :value="old('phone')"/>
             <x-jet-input-error for="phone" class="mt-2" />
         </div>
 
