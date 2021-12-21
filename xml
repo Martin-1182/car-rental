@@ -1,0 +1,133 @@
+<?php
+
+namespace App\Helpers;
+
+use Illuminate\Support\Str;
+use Illuminate\Support\Carbon;
+use Spatie\ArrayToXml\ArrayToXml;
+
+
+class SepaXml
+{
+    /**
+     * getXml.
+     *
+     * @author	Inveliy
+     * @since	v0.0.1
+     * @version	v1.0.0	Tuesday, July 20th, 2021.
+     * @access	public static
+     * @return	mixed
+     */
+    public static function getXml($orders)
+    {
+        $ctrlSum = 0;
+
+        foreach ($orders as $key => $order) {
+            foreach ($order->shipments as $key => $shipment) {
+                $ctrlSum = $ctrlSum + $shipment->cod_amount;
+            }
+        }
+
+        $root = [
+            'rootElementName' => 'Document',
+            '_attributes' => [
+                'xmlns' => 'urn:iso:std:iso:20022:tech:xsd:pain.001.001.03',
+                'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
+                'xsi:schemaLocation' => 'urn:iso:std:iso:20022:tech:xsd:pain.001.001.03 pain.001.001.03.xsd'
+            ],
+        ];
+
+        $array = [
+            'CstmrCdtTrfInitn' => [
+                'GrpHdr' => [
+                    'MsgId' => md5(Str::random(55)),
+                    'CreDtTm' => Carbon::now('Europe/Bratislava')->toDateTimeLocalString(),
+                    'NbOfTxs' => $orders->count(),
+                    'CtrlSum' => number_format($ctrlSum, 2, '.', ''),
+                    'InitgPty' => [
+                        'Nm' => 'GLS Slovakia s.r.o.',
+                        'PstlAdr' => [
+                            'Ctry' => 'SK',
+                            'AdrLine' => 'Budča 1039',
+                        ]
+                    ]
+                ], 
+                'PmtInf' => [
+                    // Tu sa to má naplniť. Takto ako to mám sa to naplní len raz.
+                ]
+            ],
+
+        ];
+
+        foreach ($orders as $key => $order) {
+            $shipment = $order->shipments->first();
+            $array['CstmrCdtTrfInitn']['PmtInf'] = [
+                'PmtInfId' => md5(Str::random(5)),
+                'PmtMtd' => 'TRF',
+                'BtchBookg' => '0',
+                'NbOfTxs' => '1',
+                'CtrlSum' => number_format($shipment->cod_amount, 2, '.', ''),
+                'PmtTpInf' => [
+                    'SvcLvl' => [
+                        'Cd' => 'SEPA'
+                    ],
+                ],
+                'ReqdExctnDt' => Carbon::now('Europe/Bratislava')->format('Y-m-d'),
+
+                'Dbtr' => [
+                    'Nm' => 'GLS Slovakia s.r.o.',
+                    'PstlAdr' => [
+                        'Ctry' => 'SK',
+                        'AdrLine' => 'Budča 1039',
+                    ]
+                ],
+                'DbtrAcct' => [
+                    'Id' => [
+                        'IBAN' => 'SK9602000000002802401454' // IBAN GLS
+                    ]
+                ],
+                'DbtrAgt' => [
+                    'FinInstnId' => [
+                        'BIC' => 'SUBASKBX' // BIC GLS
+                    ]
+                ],
+
+                'ChrgBr' => 'SLEV',
+                'CdtTrfTxInf' => [
+                    'PmtId' => [
+                        'InstrId' => $order->parcel_number,
+                        'EndToEndId' => $shipment->cod_reference ? $shipment->cod_reference : $order->parcel_number,
+                    ],
+                    'Amt' => [
+                        'InstdAmt' => [
+                            '_attributes' => ['Ccy' => 'EUR'],
+                            '_value' => number_format($shipment->cod_amount, 2, '.', '')
+                        ]
+                    ],
+                    'CdtrAgt' => [
+                        'FinInstnId' => [
+                            'BIC' => $shipment->bic,
+                        ]
+                    ],
+                    'Cdtr' => [
+                        'Nm' => $shipment->sender_full_name
+                    ],
+                    'CdtrAcct' => [
+                        'Id' => [
+                            'IBAN' => $shipment->cod_iban
+                        ]
+                    ],
+                    'RmtInf' => [
+                        'Ustrd' => 'Uhrada dobierky balika c:' . $order->parcel_number . ' dna ' . Carbon::now()->format('d.m.Y')
+                    ],
+                ]
+            ];
+        }
+
+        $arrayToXml = new ArrayToXml($array, $root);
+
+        $result = $arrayToXml->dropXmlDeclaration()->toXml();
+
+        return $result;
+    }
+}
